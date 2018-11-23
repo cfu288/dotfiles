@@ -73,11 +73,11 @@ source $ZSH/oh-my-zsh.sh
 autoload bashcompinit
 bashcompinit
 
-export PROJECTS_DIR="/home/cfu288/Documents/projects"
+PROJECTS_DIR="/mnt/c/Users/Christopher Fu/Documents/projects"
 
 function activate() {
-  if [ ! -d "venv" ]; then
-        virtualenv -p python3 venv
+    if [ ! -d "venv" ]; then
+         virtualenv -p python3 venv
     fi
     source "./venv/bin/activate"
 }
@@ -85,11 +85,17 @@ function activate() {
 alias swap='deactivate; activate'
 
 function vv() {
-  cd "/home/cfu288/Documents/projects/$1" && swap
-  #ctags -R --exclude=.hg --exclude=venv . &
+    cd "$PROJECTS_DIR/$1" && swap
 }
 
-complete -W "$(ls /home/cfu288/Documents/projects)" vv
+complete -W "$(ls $PROJECTS_DIR)" vv
+
+function go() {
+    cd "$PROJECTS_DIR/$1"
+}
+
+complete -W "$(ls $PROJECTS_DIR)" go
+
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
@@ -116,3 +122,22 @@ complete -W "$(ls /home/cfu288/Documents/projects)" vv
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+alias docker='docker.exe'
+alias docker-compose='docker-compose.exe'
+
+# added by Anaconda3 5.3.1 installer
+# >>> conda init >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$(CONDA_REPORT_ERRORS=false '/home/cfu288/anaconda3/bin/conda' shell.bash hook 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    \eval "$__conda_setup"
+else
+    if [ -f "/home/cfu288/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/cfu288/anaconda3/etc/profile.d/conda.sh"
+        CONDA_CHANGEPS1=false conda activate base
+    else
+        \export PATH="/home/cfu288/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda init <<<
